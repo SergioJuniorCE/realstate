@@ -5,25 +5,12 @@ export default function NotFoundScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Oops!' }} />
-      <View style={styles.container}>
+      <View className="flex-1 items-center justify-center p-4">
         <Text>This screen doesn't exist.</Text>
-        <Link href="/" style={styles.link}>
+        <Link href="/" className="bg-gray-500 p-4 rounded-md">
           <Text>Go to home screen!</Text>
         </Link>
       </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-});

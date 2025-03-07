@@ -4,40 +4,19 @@ import { Link } from 'expo-router';
 
 export default function HomeScreen() {
   return (
-    <ScrollView contentContainerStyle={styles.contentContainer}>
-      <Text>Real Estate</Text>
-      <View
-        style={{
-          flexDirection: 'row',
-          gap: 3,
-        }}
-      >
-        <Link href="/sign-in" style={styles.button}>
+    <ScrollView className="flex-1 gap-3 m-4">
+      <Text className="text-2xl font-bold">Real Estate</Text>
+      <View className="flex-1 flex-col gap-3">
+        <Link href="/sign-in" className="bg-gray-500 p-4 rounded-md">
           <Text>Sign In</Text>
         </Link>
-        <Link href="/explorer" style={styles.button}>
+        <Link href="/explorer" className="bg-gray-500 p-4 rounded-md">
           <Text>Explorer</Text>
         </Link>
-        <Link href="/profile" style={styles.button}>
+        <Link href="/profile" className="bg-gray-500 p-4 rounded-md">
           <Text>Profile</Text>
-        </Link>
-        <Link href="/properties/123" style={styles.button}>
-          <Text>Property 123</Text>
         </Link>
       </View>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    gap: 3,
-    margin: 10,
-  },
-  button: {
-    backgroundColor: 'gray',
-    padding: 10,
-    borderRadius: 5,
-  },
-});
