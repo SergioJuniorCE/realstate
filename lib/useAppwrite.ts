@@ -10,7 +10,7 @@ interface UseAppwriteOptions<T, P extends Record<string, string | number>> {
 
 interface UseAppwriteReturn<T, P> {
   data: T | null;
-  loading: boolean;
+  isLoading: boolean;
   error: string | null;
   refetch: (newParams: P) => Promise<void>;
 }
@@ -21,12 +21,12 @@ export const useAppwrite = <T, P extends Record<string, string | number>>({
   skip = false,
 }: UseAppwriteOptions<T, P>): UseAppwriteReturn<T, P> => {
   const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState(!skip);
+  const [isLoading, setIsLoading] = useState(!skip);
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(
     async (fetchParams: P) => {
-      setLoading(true);
+      setIsLoading(true);
       setError(null);
 
       try {
@@ -38,7 +38,7 @@ export const useAppwrite = <T, P extends Record<string, string | number>>({
         setError(errorMessage);
         Alert.alert('Error', errorMessage);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     },
     [fn]
@@ -53,5 +53,5 @@ export const useAppwrite = <T, P extends Record<string, string | number>>({
 
   const refetch = async (newParams: P) => await fetchData(newParams);
 
-  return { data, loading, error, refetch };
+  return { data, isLoading, error, refetch };
 };

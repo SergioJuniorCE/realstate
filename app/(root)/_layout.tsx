@@ -1,43 +1,23 @@
-import 'react-native-reanimated';
-import '@/global.css';
+import { Redirect, Slot } from 'expo-router';
 
-import * as SplashScreen from 'expo-splash-screen';
+import { ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useGlobalContext } from '@/providers/global-provider';
 
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import { useFonts } from 'expo-font';
+export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const { isLoading, isLoggedIn } = useGlobalContext();
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
-    Rubik_Bold: require('@/assets/fonts/Rubik-Bold.ttf'),
-    Rubik_ExtraBold: require('@/assets/fonts/Rubik-ExtraBold.ttf'),
-    Rubik_Light: require('@/assets/fonts/Rubik-Light.ttf'),
-    Rubik_Medium: require('@/assets/fonts/Rubik-Medium.ttf'),
-    Rubik_Regular: require('@/assets/fonts/Rubik-Regular.ttf'),
-    Rubik_SemiBold: require('@/assets/fonts/Rubik-SemiBold.ttf'),
-  });
-
-  useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
+  if (isLoading) {
+    return (
+      <SafeAreaView className="items-center justify-center flex-1">
+        <ActivityIndicator />
+      </SafeAreaView>
+    );
   }
 
-  return (
-    <>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)/index" />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </>
-  );
+  if (!isLoggedIn) {
+    return <Redirect href="/login" />;
+  }
+
+  return <Slot />;
 }

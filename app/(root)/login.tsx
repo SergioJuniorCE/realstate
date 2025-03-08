@@ -9,19 +9,26 @@ import {
 } from 'react-native';
 
 import React from 'react';
+import { Redirect } from 'expo-router';
 import icons from '@/constants/icons';
 import images from '@/constants/images';
 import { login } from '@/lib/appwrite';
-import { router } from 'expo-router';
+import { useGlobalContext } from '@/providers/global-provider';
 
 export default function Login() {
+  const { isLoading, isLoggedIn } = useGlobalContext();
+
+  if (!isLoading && isLoggedIn) {
+    return <Redirect href="/" />;
+  }
+
   const handleLogin = async () => {
     try {
       const session = await login();
       if (!session) {
         throw new Error('Failed to login');
       }
-      router.replace('/');
+      return <Redirect href="/" />;
     } catch (error) {
       console.error(error);
       Alert.alert('Error', 'Failed to login');
