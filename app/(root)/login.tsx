@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   SafeAreaView,
   ScrollView,
@@ -10,10 +11,21 @@ import {
 import React from 'react';
 import icons from '@/constants/icons';
 import images from '@/constants/images';
+import { login } from '@/lib/appwrite';
+import { router } from 'expo-router';
 
-export default function SignIn() {
-  const handleSignIn = () => {
-    console.log('Sign in with google');
+export default function Login() {
+  const handleLogin = async () => {
+    try {
+      const session = await login();
+      if (!session) {
+        throw new Error('Failed to login');
+      }
+      router.replace('/');
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error', 'Failed to login');
+    }
   };
 
   return (
@@ -33,7 +45,7 @@ export default function SignIn() {
             <Text className="text-primary-300">your dream home</Text>
           </Text>
           <TouchableOpacity
-            onPress={handleSignIn}
+            onPress={handleLogin}
             className="w-full gap-2 p-4 py-4 mt-5 bg-white rounded-full shadow-lg shadow-zinc-400"
           >
             <View className="flex-row items-center justify-center">
